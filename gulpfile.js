@@ -32,7 +32,7 @@ config.scss.forEach(element => {
         )
       )
       .pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false }))
-      .pipe(stripCssComments({ preserve: false })) // удаляес все коментарии
+      .pipe(stripCssComments({ preserve: config.comments })) // удаляес все коментарии
       .pipe(gulp.dest(element.out));
   });
 });
