@@ -1,0 +1,4 @@
+{
+    "js": [{ "name": "js", "dev": "__js", "out": "../public/scripts" }],
+    "scss": [{ "name": "scss", "dev": "__scss", "out": "../public/css" }]
+}

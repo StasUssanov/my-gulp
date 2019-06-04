@@ -1,18 +1,16 @@
 const gulp = require("gulp");
-const sass = require("gulp-sass"); /* SCSS */
-const autoprefixer = require("gulp-autoprefixer"); /* Prefix CSS */
+const sass = require("gulp-sass");
+const autoprefixer = require("gulp-autoprefixer");
 const babel = require("gulp-babel");
-const uglify = require("gulp-uglify"); /* JavaScript */
-const notify = require("gulp-notify"); /* Оповещалка */
-const rename = require("gulp-rename"); /* Переименовалка */
-
-const jsPath = [{ name: "js", dev: "__js", out: "../public/scripts" }];
-const scssPath = [{ name: "scss", dev: "__scss", out: "../public/css" }];
+const uglify = require("gulp-uglify");
+const notify = require("gulp-notify");
+const rename = require("gulp-rename");
+const config = require("./my-gulp-config.json");
 
 /**
  * SCSS
  */
-scssPath.forEach(element => {
+config.scss.forEach(element => {
     gulp.task(element.name, function() {
         gulp.src([
             "../" + element.dev + "/*.scss",
@@ -38,7 +36,7 @@ scssPath.forEach(element => {
 /**
  * JS
  */
-jsPath.forEach(element => {
+config.js.forEach(element => {
     gulp.task(element.name, function() {
         gulp.src([
             "../" + element.dev + "/*.js",
@@ -84,14 +82,14 @@ gulp.task("Vue", function() {
  *	Отслеживаем изменения
  */
 gulp.task("default", function() {
-    jsPath.forEach(element => {
+    config.js.forEach(element => {
         gulp.watch("../" + element.dev + "/*.js").on(
             "change",
             gulp.series(element.name)
         );
     });
 
-    scssPath.forEach(element => {
+    config.scss.forEach(element => {
         gulp.watch("../" + element.dev + "/*.scss").on(
             "change",
             gulp.series(element.name)
