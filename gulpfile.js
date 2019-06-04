@@ -9,7 +9,11 @@ const uglify = require('gulp-uglify');
 //
 const notify = require('gulp-notify');
 const rename = require('gulp-rename');
-const config = require('./my-gulp-config.json');
+const fileExists = require('file-exists');
+// Подключаем конфиг из проекта, если есть
+const config = fileExists.sync('../my-gulp-config.json')
+  ? require('../my-gulp-config.json')
+  : require('./my-gulp-config.json');
 
 /**
  * SCSS
@@ -28,7 +32,7 @@ config.scss.forEach(element => {
         )
       )
       .pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false }))
-      .pipe(stripCssComments())
+      .pipe(stripCssComments({ preserve: false })) // удаляес все коментарии
       .pipe(gulp.dest(element.out));
   });
 });
