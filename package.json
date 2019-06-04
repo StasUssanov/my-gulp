@@ -1,6 +1,6 @@
 {
   "name": "my-gulp",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Gulp",
   "main": "gulpfile.js",
   "dependencies": {
@@ -20,6 +20,7 @@
     "gulp-uglify": "^3.0.1"
   },
   "scripts": {
+    "fix": "npm audit fix",
     "test": "echo \"test\" && exit 1"
   },
   "repository": {
