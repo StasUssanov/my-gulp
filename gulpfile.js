@@ -36,6 +36,14 @@ config.scss.forEach(element => {
       )
       .pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false }))
       .pipe(stripCssComments({ preserve: config.comments })) // удаляес все коментарии
+      .pipe(
+        rename(function(path) {
+          // меняем расширение файла
+          if (element.ext !== null && element.ext !== undefined) {
+            path.extname = element.ext;
+          }
+        })
+      )
       .pipe(gulp.dest(element.out));
   });
 });
@@ -58,6 +66,14 @@ config.js.forEach(element => {
         uglify({
           toplevel: true,
           ie8: true
+        })
+      )
+      .pipe(
+        rename(function(path) {
+          // меняем расширение файла
+          if (element.ext !== null && element.ext !== undefined) {
+            path.extname = element.ext;
+          }
         })
       )
       .pipe(gulp.dest(element.out));
