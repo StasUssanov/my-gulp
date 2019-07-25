@@ -1,30 +1,30 @@
 {
   "name": "my-gulp",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Gulp",
   "main": "gulpfile.js",
   "dependencies": {
-    "gulp": "^4.0.0"
+    "gulp": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "file-exists": "^5.0.1",
-    "gulp-autoprefixer": "^6.0.0",
+    "gulp-autoprefixer": "^6.1.0",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-notify": "^3.2.0",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-strip-css-comments": "^2.0.0",
-    "gulp-uglify": "^3.0.1",
+    "gulp-uglify": "^3.0.2",
     "gulp-wait": "0.0.2"
   },
   "scripts": {
-    "fix": "npm audit fix",
-    "test": "echo \"test\" && exit 1"
+    "start": "gulp",
+    "fix": "npm audit fix"
   },
   "repository": {
     "type": "git",
@@ -33,8 +33,7 @@
   "keywords": [
     "gulp",
     "scss",
-    "js",
-    "vie"
+    "js"
   ],
   "author": "Stanislav Ussanov",
   "license": "MIT",
