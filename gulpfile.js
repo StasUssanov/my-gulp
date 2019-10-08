@@ -6,20 +6,16 @@ const gulp = require('gulp');
 
 // const notify = require('gulp-notify');
 const wait = require('gulp-wait');
-// const rename = require('gulp-rename');
+const rename = require('gulp-rename');
 
-/**
- * Подключаем конфиг из проекта, если есть
- */
-const fs = require('fs');
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Подключаем конфиг из проекта, если есть ~~~ */
+const { existsSync } = require('fs');
 const fileConfig = 'my-gulp-config.json';
-const config = fs.existsSync('../' + fileConfig)
+const config = existsSync('../' + fileConfig)
   ? require('../' + fileConfig)
   : require('./' + fileConfig);
 
-/**
- * Обрабатываем файлы JavaScript 
- */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Обрабатываем файлы JavaScript ~~~ */
 const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 config.js.forEach(item => {
@@ -37,6 +33,13 @@ config.js.forEach(item => {
         uglify({
           toplevel: true,
           ie8: true,
+        })
+      )
+      .pipe(
+        rename({
+          prefix: item.prefix,
+          suffix: item.suffix,
+          extname: item.extname,
         })
       )
       .pipe(gulp.dest(item.out));
