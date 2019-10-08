@@ -1,23 +1,24 @@
 {
-  "comments": false,
-  "js": [
-    {
-      "name": "js",
-      "dev": "../source/js",
-      "out": "../js",
-      "prefix": "",
-      "suffix": "-min",
-      "extname": ".js"
-    }
-  ],
-  "scss": [
-    {
-      "name": "scss",
-      "dev": "../source/scss",
-      "out": "../css",
-      "prefix": "",
-      "suffix": "",
-      "extname": ".css"
-    }
-  ]
+    "ver": "1.4.0",
+    "js": [
+        {
+            "name": "js",
+            "dev": "../source/js",
+            "out": "../js",
+            "prefix": "",
+            "suffix": "",
+            "extname": ".js"
+        }
+    ],
+    "scss": [
+        {
+            "name": "scss",
+            "dev": "../source/scss",
+            "out": "../css",
+            "prefix": "",
+            "suffix": "",
+            "extname": ".css",
+            "comments": true
+        }
+    ]
 }
