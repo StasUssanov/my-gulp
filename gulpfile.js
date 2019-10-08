@@ -1,103 +1,81 @@
-const gulp = require("gulp");
-// SCSS
-const sass = require("gulp-sass");
-const autoprefixer = require("gulp-autoprefixer");
-const stripCssComments = require("gulp-strip-css-comments");
-// JS
-const babel = require("gulp-babel");
-const uglify = require("gulp-uglify");
-//
-const notify = require("gulp-notify");
-const wait = require("gulp-wait");
-const rename = require("gulp-rename");
-const fileExists = require("file-exists");
+const gulp = require('gulp');
+const wait = require('gulp-wait');
+const notify = require('gulp-notify');
+const rename = require('gulp-rename');
 
-// Подключаем конфиг из проекта, если есть
-const config = fileExists.sync("../my-gulp-config.json")
-    ? require("../my-gulp-config.json")
-    : require("./my-gulp-config.json");
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Подключаем конфиг из проекта, если есть ~~~ */
+const { existsSync } = require('fs');
+const fileConfig = 'my-gulp-config.json';
+const config = existsSync('../' + fileConfig) ? require('../' + fileConfig) : require('./' + fileConfig);
 
-/**
- * SCSS
- */
-config.scss.forEach(element => {
-    gulp.task(element.name, function() {
-        gulp.src([
-            "../" + element.dev + "/*.scss",
-            "!../" + element.dev + "/_*.scss"
-        ])
-            .pipe(wait(1500))
-            .pipe(
-                sass({ outputStyle: "compressed" }).on(
-                    "error",
-                    notify.onError({
-                        message: "<%= error.message %>",
-                        title: element.name + " - ошибка"
-                    })
-                )
-            )
-            .pipe(autoprefixer({ cascade: false }))
-            .pipe(stripCssComments({ preserve: config.comments })) // удаляес все коментарии
-            .pipe(
-                rename(function(path) {
-                    // меняем расширение файла
-                    if (element.ext !== null && element.ext !== undefined) {
-                        path.extname = element.ext;
-                    }
-                })
-            )
-            .pipe(gulp.dest(element.out));
-    });
-});
-
-/**
- * JS
- */
-config.js.forEach(element => {
-    gulp.task(element.name, function() {
-        gulp.src([
-            "../" + element.dev + "/*.js",
-            "!../" + element.dev + "/_*.js"
-        ])
-            .pipe(wait(1500))
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Обрабатываем файлы JavaScript ~~~ */
+const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
+config.js.forEach(item => {
+    gulp.task(item.name, () => {
+        gulp.src([item.dev + '/*.js', '!' + item.dev + '/_*.js'])
+            .pipe(wait(1500)) // решает проблему долгого чтения исходного файла
             .pipe(
                 babel({
-                    presets: ["@babel/preset-env"],
-                    plugins: ["@babel/plugin-proposal-class-properties"]
-                })
+                    presets: ['@babel/preset-env'],
+                    plugins: ['@babel/plugin-proposal-class-properties'],
+                }).on(
+                    'error',
+                    notify.onError({
+                        message: '<%= error.message %>',
+                        title: item.name + ' - ошибка',
+                    })
+                )
             )
             .pipe(
                 uglify({
                     toplevel: true,
-                    ie8: true
+                    ie8: true,
                 })
             )
             .pipe(
-                rename(function(path) {
-                    // меняем расширение файла
-                    if (element.ext !== null && element.ext !== undefined) {
-                        path.extname = element.ext;
-                    }
+                rename({
+                    prefix: item.prefix,
+                    suffix: item.suffix,
+                    extname: item.extname,
                 })
             )
-            .pipe(gulp.dest(element.out));
+            .pipe(gulp.dest(item.out));
     });
 });
 
-/**
- *	Отслеживаем изменения
- */
-gulp.task("default", function() {
-    config.js.forEach(element => {
-        gulp.watch("../" + element.dev + "/*.js").on(
-            "change",
-            gulp.series(element.name)
-        );
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Обрабатываем файлы SCSS  ~~~ */
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const stripCssComments = require('gulp-strip-css-comments');
+config.scss.forEach(item => {
+    gulp.task(item.name, function() {
+        gulp.src([item.dev + '/*.scss', '!' + item.dev + '/_*.scss'])
+            .pipe(wait(1500))
+            .pipe(
+                sass({ outputStyle: 'compressed' }).on(
+                    'error',
+                    notify.onError({
+                        message: '<%= error.message %>',
+                        title: item.name + ' - ошибка',
+                    })
+                )
+            )
+            .pipe(autoprefixer({ overrideBrowserslist: ['last 2 versions'], cascade: false }))
+            .pipe(stripCssComments({ preserve: item.comments })) // удаляем все коментарии
+            .pipe(
+                rename({
+                    prefix: item.prefix,
+                    suffix: item.suffix,
+                    extname: item.extname,
+                })
+            )
+            .pipe(gulp.dest(item.out));
     });
-    config.scss.forEach(element => {
-        gulp.watch("../" + element.dev + "/*.scss").on(
-            "change",
-            gulp.series(element.name)
-        );
-    });
+});
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Отслеживаем изменения  ~~~ */
+gulp.task('default', function() {
+    config.js.forEach(item => gulp.watch(item.dev + '/*.js').on('change', gulp.series(item.name)));
+    config.scss.forEach(item => gulp.watch(item.dev + '/*.scss').on('change', gulp.series(item.name)));
 });
