@@ -46,6 +46,7 @@ config.js.forEach(item => {
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Обрабатываем файлы SCSS  ~~~ */
 const sass = require('gulp-sass');
+sass.compiler = require('node-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const stripCssComments = require('gulp-strip-css-comments');
 config.scss.forEach(item => {
