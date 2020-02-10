@@ -1,6 +1,6 @@
 {
     "name": "my-gulp",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "description": "Gulp",
     "main": "gulpfile.js",
     "dependencies": {
@@ -23,17 +23,18 @@
         "gulp-autoprefixer": "^6.1.0",
         "gulp-babel": "^8.0.0",
         "gulp-concat": "^2.6.1",
+        "gulp-inline-css": "^3.5.0",
         "gulp-notify": "^3.2.0",
         "gulp-rename": "^1.4.0",
         "gulp-sass": "^4.0.2",
         "gulp-strip-css-comments": "^2.0.0",
         "gulp-uglify": "^3.0.2",
         "gulp-wait": "0.0.2",
+        "node-normalize-scss": "^8.0.1",
         "prettier": "^1.19.1"
     },
     "scripts": {
-        "start": "gulp",
-        "fix": "npm audit fix"
+        "start": "gulp"
     },
     "repository": {
         "type": "git",
@@ -42,6 +43,8 @@
     "keywords": [
         "gulp",
         "scss",
+        "normilize.css",
+        "inline css",
         "js"
     ],
     "author": "Stanislav Ussanov",

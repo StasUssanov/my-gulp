@@ -1,5 +1,4 @@
 {
-    "ver": "1.4.0",
     "js": [
         {
             "name": "js",
@@ -20,5 +19,14 @@
             "extname": ".css",
             "comments": true
         }
-    ]
+    ],
+    "html": {
+        "name": "inline-css",
+        "dev": "..",
+        "out": "..",
+        "prefix": "",
+        "suffix": "_inline-css",
+        "extname": ".html",
+        "inline": false
+    }
 }

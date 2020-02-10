@@ -54,7 +54,7 @@ config.scss.forEach(item => {
         gulp.src([item.dev + '/*.scss', '!' + item.dev + '/_*.scss'])
             .pipe(wait(1500))
             .pipe(
-                sass({ outputStyle: 'compressed' }).on(
+                sass({ outputStyle: 'compressed', includePaths: require('node-normalize-scss').includePaths }).on(
                     'error',
                     notify.onError({
                         message: '<%= error.message %>',
@@ -76,7 +76,36 @@ config.scss.forEach(item => {
 });
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Отслеживаем изменения  ~~~ */
+
+if (config.html.inline) {
+    const inlineCss = require('gulp-inline-css');
+    gulp.task(config.html.name, function() {
+        gulp.src(config.html.dev + '/*.html')
+            .pipe(wait(1500))
+            .pipe(
+                inlineCss({
+                    applyStyleTags: true,
+                    applyLinkTags: true,
+                    removeStyleTags: true,
+                    removeLinkTags: true,
+                })
+            )
+            .pipe(
+                rename({
+                    prefix: config.html.prefix,
+                    suffix: config.html.suffix,
+                    extname: config.html.extname,
+                })
+            )
+            .pipe(gulp.dest(config.html.out));
+    });
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Отслеживаем изменения  ~~~ */
 gulp.task('default', function() {
     config.js.forEach(item => gulp.watch(item.dev + '/*.js').on('change', gulp.series(item.name)));
     config.scss.forEach(item => gulp.watch(item.dev + '/*.scss').on('change', gulp.series(item.name)));
+    if (config.html.inline) {
+        gulp.watch(config.html.dev + '/*.html').on('change', gulp.series(config.html.name));
+    }
 });
