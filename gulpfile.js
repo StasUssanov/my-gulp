@@ -86,6 +86,7 @@ if (config.html.inline) {
                 inlineCss({
                     applyStyleTags: true,
                     applyLinkTags: true,
+                    removeHtmlSelectors: true,
                     removeStyleTags: true,
                     removeLinkTags: true,
                 })

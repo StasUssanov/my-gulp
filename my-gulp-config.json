@@ -23,9 +23,9 @@
     "html": {
         "name": "inline-css",
         "dev": "..",
-        "out": "..",
+        "out": "../inline-css",
         "prefix": "",
-        "suffix": "_inline-css",
+        "suffix": "",
         "extname": ".html",
         "inline": false
     }
